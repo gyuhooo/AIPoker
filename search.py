@@ -5,15 +5,16 @@ pattern = '.*?(\d+)|JO+'
 
 distr = str(db.distribute)
 
-repatter = re.sub("\W0|,|',|'|r|]", '', distr)
+repatter = re.sub("r|\W0|,|',|'|]", '', distr)
 result = re.findall(pattern, repatter)
 jorker = re.search('JORKER', repatter)
+ 
+#デバッグ用
+#print(repatter)
 
-if jorker :
-    print(repatter)
-    print(result)
-    print(jorker.group())
+if not(jorker) :
+    hand = result
 else :
-    print(repatter)
-    print(result)
+    hand = result + [str(jorker.group())]
 
+print(hand)
