@@ -13,3 +13,5 @@ for card in trump.cards :
 while i < 5 :
     distribute.append(kind[random.randint(0,52)])
     i += 1
+
+print(distribute)
