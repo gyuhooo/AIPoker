@@ -1,6 +1,6 @@
 import search as hands
 
-#デバッグ用
+#for debug
 #hand = [2,2,2,3,2]
 
 i = 0
@@ -8,7 +8,7 @@ j = 1
 check = 0
 card_check = []
 
-#デバッグ用
+#for debug
 #for num in hand :
 
 for num in hands.hand :
@@ -18,13 +18,13 @@ for num in hands.hand :
             check += 1
         j += 1
 
-        #デバッグ用
+        #for debug
         #print('j : ' + str(j))
 
     j = 1
     i += 1
 
-    #デバッグ用
+    #for debug
     #print('i : ' + str(i))
 
 print(check)
