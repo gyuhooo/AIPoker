@@ -1,15 +1,15 @@
 import distribute as db
 import re
 
-pattern = '.*?(\d+)|JO+'
+pattern = '.*?(\d+)'
 
 distr = str(db.distribute)
 
-repatter = re.sub("r|\W0|,|',|'|]", '', distr)
+repatter = re.sub("\W'|',|'|]", '', distr)
 result = re.findall(pattern, repatter)
 jorker = re.search('JORKER', repatter)
  
-#デバッグ用
+#for debug
 #print(repatter)
 
 if not(jorker) :
@@ -17,5 +17,5 @@ if not(jorker) :
 else :
     hand = result + [str(jorker.group())]
 
-#デバッグ用
+#for debug
 #print(hand)

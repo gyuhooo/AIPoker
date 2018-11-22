@@ -1,8 +1,10 @@
 import random
 import trump
+
 i = 0
 kind = ['JORKER']
-distribute = [0]
+distribute = []
+num = []
 
 for card in trump.cards :
     j = 0
@@ -10,9 +12,21 @@ for card in trump.cards :
         kind.append(card + ' ' + str(trump.cards[card][j]))
         j += 1
 
-while i < 5 :
-    distribute.append(kind[random.randint(0,52)])
-    i += 1
+while len(num) < 5 :
+    flag = True
+    rand = random.randint(0,52)
+    for no in num :
+        if no == None :
+            break
+        if no == rand :
+            flag = False
+            break
+        i += 1
+    
+    if flag :
+        num.append(rand)
+        distribute.append(kind[rand])
 
-#手札表示
+#See what you have
 print(distribute)
+#print(num)
