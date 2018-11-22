@@ -2,7 +2,7 @@ import random
 import trump
 i = 0
 kind = ['JORKER']
-distribute = [0]
+distribute = []
 
 for card in trump.cards :
     j = 0

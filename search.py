@@ -5,7 +5,7 @@ pattern = '.*?(\d+)|JO+'
 
 distr = str(db.distribute)
 
-repatter = re.sub("r|\W0|,|',|'|]", '', distr)
+repatter = re.sub("\W'|',|'|]", '', distr)
 result = re.findall(pattern, repatter)
 jorker = re.search('JORKER', repatter)
  
