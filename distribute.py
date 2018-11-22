@@ -14,5 +14,5 @@ while i < 5 :
     distribute.append(kind[random.randint(0,52)])
     i += 1
 
-#デバッグ用
-#print(distribute)
+#手札表示
+print(distribute)

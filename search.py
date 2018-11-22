@@ -17,4 +17,5 @@ if not(jorker) :
 else :
     hand = result + [str(jorker.group())]
 
-print(hand)
+#デバッグ用
+#print(hand)
