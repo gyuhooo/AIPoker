@@ -23,7 +23,7 @@ class Porker(object) :
     while(1) :
         screen.fill(GREEN)
         i = 0
-        for card in cards :            
+        for card in cards :
             screen.blit(card, (200 + i, 300))
             i += 40
 
