@@ -10,7 +10,7 @@ j = 1
 check = 0
 card_check = []
 straight_flash_check = []
-num_list = [int(s) for s in db.num]
+num_list = [int(s) for s in db.player_num]
 num_list.sort()
 
 #for debug of royal straight flush
@@ -52,6 +52,7 @@ elif (check == 3) and jor_check :
 elif (check == 6) and jor_check :
     check += 4
 
+"""
 for no in num_list :
     straight_flash_check.append(no)
 if jor_check :
@@ -60,3 +61,4 @@ if jor_check :
 else :
     if int(straight_flash_check[0]) == int(straight_flash_check[4]) - 4 :
         check = 12
+"""

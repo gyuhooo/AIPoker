@@ -3,10 +3,8 @@ import trump
 
 i = 0
 kind = ['JORKER']
-player = []
-cpu = []
+distribute = []
 num = []
-player_num = []
 
 for card in trump.cards :
     j = 0
@@ -14,7 +12,7 @@ for card in trump.cards :
         kind.append(card + ' ' + str(trump.cards[card][j]))
         j += 1
 
-while len(num) < 10 :
+while len(num) < 5 :
     flag = True
     rand = random.randint(0,52)
     for no in num :
@@ -24,14 +22,11 @@ while len(num) < 10 :
             flag = False
             break
         i += 1
+    
     if flag :
-        if len(num) < 5 :
-            player.append(kind[rand])
-            player_num.append(rand)
-        else :
-            cpu.append(kind[rand])
         num.append(rand)
-#See what you and cpu have
-print("player : %s" % player)
-print("cpu : %s" % cpu)
+        distribute.append(kind[rand])
+
+#See what you have
+print(distribute)
 #print(num)
