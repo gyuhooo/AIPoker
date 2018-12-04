@@ -3,7 +3,7 @@ import re
 
 pattern = '.*?(\d+)'
 
-distr = str(db.distribute)
+distr = str(db.player)
 
 repatter = re.sub("\W'|',|'|]", '', distr)
 result = re.findall(pattern, repatter)
