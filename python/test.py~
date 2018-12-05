@@ -1,9 +1,0 @@
-import pygame
-from pygame.locals import *
-
-event = []
-
-for eve in pygame.event.get() :
-    event.append(eve)
-
-print(event)
