@@ -8,9 +8,7 @@ import distribute as db
 SCREEN_SIZE = (640, 480)
 GREEN = (88, 191, 63)
 root = "../images/cards/"
-cards = []
-event = []
-flag = []
+cards, event, flag = [], [], []
 GAME_MODE = {'START' : 0, 'PLAY' : 1}
 game_state, x, y, screen, font = 0, 0, 0, 0, 0
 
@@ -108,7 +106,6 @@ class Porker(object) :
             for eve in self.event :
                 if eve.type == MOUSEBUTTONDOWN and eve.button == 1 :
                     self.game_state = GAME_MODE['PLAY']
-                    print('now')
             
         
 """
