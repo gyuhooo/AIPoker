@@ -88,10 +88,10 @@ class Porker(object) :
                 if eve.type == KEYDOWN :
                     if eve.key == K_ESCAPE :
                         sys.exit()
-
     def start(self) :
         if self.event == [] :
             pygame.event.pump()
+            self.screen.blit(self.font.render('AIPoker', True, (255, 0, 0)), (260, 230, 20))
         else :
             for eve in self.event :
                 if eve.type == MOUSEBUTTONDOWN and eve.button == 1 :
