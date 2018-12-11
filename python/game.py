@@ -6,13 +6,16 @@ import player
 import distribute as db
 import exchange as ex
 import animation as an
+import time
 
 SCREEN_SIZE = (840, 630)
 GREEN = (88, 191, 63)
 root = "../images/cards/"
+v_root = "../images/voice/"
 player_cards, cpu_cards, remainder_cards, event, flag =  [], [], [], [], []
-GAME_MODE = {'START' : 0, 'DISTR' : 1, 'PLAY' : 2}
-game_state, x, y, screen, font, i, button, control, cardback = 0, 0, 0, 0, 0, 0, 0, 0, 0
+GAME_MODE = {'START' : 0, 'DISTR' : 1, 'PLAY' : 2, 'RESULT' : 3}
+RESULT = {'NONE' : 0, 'WIN' : 1, 'LOSE' : 2}
+game_state, x, y, screen, font, i, button, control, cardback, game_result = 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 class Porker(object) :
     
     def __init__(self) :
@@ -27,7 +30,8 @@ class Porker(object) :
         self.cardback = pygame.image.load("%scardback.png" % (root)).convert_alpha()
         self.clock = pygame.time.Clock()
         self.game_state = GAME_MODE['START']
-        self.flag = [False] * 6
+        self.game_result = RESULT['NONE']
+        self.flag = [False] * 7
         self.button, self.control = False, False
         
         self.i = -1
@@ -59,9 +63,10 @@ class Porker(object) :
             if self.flag[5] == True :
                 ex.redistr()
                 self.cards_reroad()
-                self.flag = [False] * 6
-            #if self.flag[6] == True :
-                
+                self.flag = [False] * 7
+            if self.flag[6] == True :
+                self.game_result = RESULT['WIN']
+                self.voice()
         elif self.game_state == GAME_MODE['DISTR'] :
             an.animation(self.screen, GREEN, self.clock, self.cardback)
             pygame.time.wait(1000)
@@ -69,6 +74,9 @@ class Porker(object) :
             self.clock.tick(100)
         elif self.game_state == GAME_MODE['START'] :
             self.start()
+        elif self.game_state == GAME_MODE['RESULT'] :
+            time.sleep(3)
+            self.game_state = GAME_MODE['START']
         
 
     def play(self) :
@@ -116,6 +124,7 @@ class Porker(object) :
             self.screen.blit(self.comment.render("Prease click space or press enter.", True, (0, 0, 0)), (300, 340))
             for eve in self.event :
                 if eve.type == MOUSEBUTTONDOWN and eve.button == 1 :
+                    self.voice_lose.play()
                     self.game_state = GAME_MODE['DISTR']
                 if eve.type == KEYDOWN :
                     if eve.key == K_RETURN :
@@ -125,7 +134,7 @@ class Porker(object) :
         for eve in self.event :
             if (eve.type == MOUSEBUTTONDOWN and eve.button == 1) or (eve.type == KEYDOWN and eve.key == K_RETURN) :
                 if self.i != -1 :
-                    if self.flag[no] == True :
+                    if self.flag[no] :
                         self.flag[no] = False
                     else :
                         self.flag[no] =True
@@ -146,8 +155,11 @@ class Porker(object) :
                 self.i = 0
             else :
                 self.i = -1
-        elif (460 <= self.y <= 540) and (595 < self.x <= 695):
-            self.i = 5
+        elif (460 <= self.y <= 540) :
+            if 595 < self.x <= 695:
+                self.i = 5
+            elif 715 < self.x <= 785 :
+                self.i = 6
         else :
             self.i = -1
 
@@ -157,7 +169,7 @@ class Porker(object) :
                 if eve.key == K_RIGHT :
                     if self.i == -1 :
                         self.i = 0
-                    elif self.i != 5 :
+                    elif self.i != 6 :
                         self.i += 1
                 if eve.key == K_LEFT :                    
                     if self.i == -1 :
@@ -178,7 +190,19 @@ class Porker(object) :
         for no in db.player_num :
             player_cards[i] = (pygame.image.load("%s%d.png" % (root, no)).convert_alpha())
             i += 1
-    
+
+    def voice(self) :
+        pygame.mixer.init(44100, 16, 2, 4096)
+        if self.game_result == RESULT['WIN'] :
+            pygame.mixer.music.load("%syouwin.mp3" % v_root)
+        elif self.game_result == RESULT['LOSE'] :
+            pygame.mixer.music.load("%syoulose.mp3" % v_root)
+        pygame.mixer.music.play(1)
+        self.flag[6] = False
+        self.game_state = GAME_MODE['RESULT']
+        time.sleep(4)
+        
+
     def print_deck(self) :
         self.screen.blit(self.cardback, (700, 100))
         self.screen.blit(self.cardback, (700, 90))
