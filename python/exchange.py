@@ -27,5 +27,3 @@ def redistr() :
                 continue
         
         i += 1
-    print(db.remainder)
-    print(db.player)

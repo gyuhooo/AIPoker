@@ -12,8 +12,7 @@ GREEN = (88, 191, 63)
 root = "../images/cards/"
 player_cards, cpu_cards, remainder_cards, event, flag =  [], [], [], [], []
 GAME_MODE = {'START' : 0, 'DISTR' : 1, 'PLAY' : 2}
-game_state, x, y, screen, font, i, button, control = 0, 0, 0, 0, 0, 0, 0, 0
-
+game_state, x, y, screen, font, i, button, control, cardback = 0, 0, 0, 0, 0, 0, 0, 0, 0
 class Porker(object) :
     
     def __init__(self) :
@@ -25,6 +24,7 @@ class Porker(object) :
         self.font = pygame.font.Font("../images/Pacifico.ttf", 40)
         self.title = pygame.font.Font("../images/Pacifico.ttf", 70)        
         self.comment = pygame.font.Font("../images/Pacifico.ttf", 20)
+        self.cardback = pygame.image.load("%scardback.png" % (root)).convert_alpha()
         self.clock = pygame.time.Clock()
         self.game_state = GAME_MODE['START']
         self.flag = [False] * 6
@@ -60,8 +60,10 @@ class Porker(object) :
                 ex.redistr()
                 self.cards_reroad()
                 self.flag = [False] * 6
+            #if self.flag[6] == True :
+                
         elif self.game_state == GAME_MODE['DISTR'] :
-            an.animation(self.screen, GREEN, self.clock)
+            an.animation(self.screen, GREEN, self.clock, self.cardback)
             pygame.time.wait(1000)
             self.game_state = GAME_MODE['PLAY']
             self.clock.tick(100)
@@ -178,17 +180,17 @@ class Porker(object) :
             i += 1
     
     def print_deck(self) :
-        self.screen.blit(pygame.image.load("%scardback.png" % (root)).convert_alpha(), (700, 100))
-        self.screen.blit(pygame.image.load("%scardback.png" % (root)).convert_alpha(), (700, 90))
-        self.screen.blit(pygame.image.load("%scardback.png" % (root)).convert_alpha(), (700, 80))
-        self.screen.blit(pygame.image.load("%scardback.png" % (root)).convert_alpha(), (700, 70))
+        self.screen.blit(self.cardback, (700, 100))
+        self.screen.blit(self.cardback, (700, 90))
+        self.screen.blit(self.cardback, (700, 80))
+        self.screen.blit(self.cardback, (700, 70))
 
     def print_cpudist(self) :
-        self.screen.blit(pygame.image.load("%scardback.png" % root).convert_alpha(), (265, 90))
-        self.screen.blit(pygame.image.load("%scardback.png" % root).convert_alpha(), (325, 90))
-        self.screen.blit(pygame.image.load("%scardback.png" % root).convert_alpha(), (385, 90))
-        self.screen.blit(pygame.image.load("%scardback.png" % root).convert_alpha(), (445, 90))
-        self.screen.blit(pygame.image.load("%scardback.png" % root).convert_alpha(), (505, 90))
+        self.screen.blit(self.cardback, (265, 90))
+        self.screen.blit(self.cardback, (325, 90))
+        self.screen.blit(self.cardback, (385, 90))
+        self.screen.blit(self.cardback, (445, 90))
+        self.screen.blit(self.cardback, (505, 90))
 
 if __name__ == "__main__" :
     MY_GAME = Porker()

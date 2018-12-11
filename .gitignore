@@ -9,4 +9,4 @@ exchange.pyc
 game.pyc
 animation.py~
 animation.pyc
-/__pycache__/
+./__pycache__/
