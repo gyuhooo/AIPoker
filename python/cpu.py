@@ -3,7 +3,7 @@ import distribute as db
 
 def role_comment():
     
-    no = pair.check(db.player, db.player_num)
+    no = pair.check(db.cpu, db.cpu_num)
     
     if no == 0 :
         role = 'no role...'
@@ -24,10 +24,10 @@ def role_comment():
     elif no == 12 :
         role = 'Straight Flush!!!'
 
-    comment = 'You have ' + role
+    comment = "cpu have " + role
     
     return comment 
 
-def player_role() :
-    no = pair.check(db.player, db.player_num)
+def cpu_role() :
+    no = pair.check(db.cpu, db.cpu_num)
     return no

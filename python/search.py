@@ -1,11 +1,11 @@
 import distribute as db
 import re
 
-def search() :
+def search(dist) :
 
     pattern = '.*?(\d+)'
     
-    distr = str(db.player)
+    distr = str(dist)
     
     repatter = re.sub("\W'|',|'|]", '', distr)
     result = re.findall(pattern, repatter)

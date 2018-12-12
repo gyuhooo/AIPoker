@@ -3,15 +3,17 @@ from pygame.locals import *
 import sys
 import os
 import player
+import cpu
 import distribute as db
 import exchange as ex
 import animation as an
 import time
 
-SCREEN_SIZE = (840, 630)
+SCREEN_SIZE = (890, 630)
 GREEN = (88, 191, 63)
 root = "../images/cards/"
 v_root = "../images/voice/"
+b_root = "../images/buttons/"
 player_cards, cpu_cards, remainder_cards, event, flag =  [], [], [], [], []
 GAME_MODE = {'START' : 0, 'DISTR' : 1, 'PLAY' : 2, 'RESULT' : 3}
 RESULT = {'NONE' : 0, 'WIN' : 1, 'LOSE' : 2}
@@ -24,18 +26,13 @@ class Porker(object) :
         self.event = pygame.event.get()
         self.screen = pygame.display.set_mode(SCREEN_SIZE)
         pygame.display.set_caption('Porker')
-        self.font = pygame.font.Font("../images/Pacifico.ttf", 40)
-        self.title = pygame.font.Font("../images/Pacifico.ttf", 70)        
-        self.comment = pygame.font.Font("../images/Pacifico.ttf", 20)
-        self.cardback = pygame.image.load("%scardback.png" % (root)).convert_alpha()
+        self.image_road()
         self.clock = pygame.time.Clock()
         self.game_state = GAME_MODE['START']
         self.game_result = RESULT['NONE']
         self.flag = [False] * 7
         self.button, self.control = False, False
-        
         self.i = -1
-        self.cards_road() # cards images road here
         
         while(1) :
             self.clock.tick(100)
@@ -65,9 +62,12 @@ class Porker(object) :
                 self.cards_reroad()
                 self.flag = [False] * 7
             if self.flag[6] == True :
-                self.game_result = RESULT['WIN']
-                self.voice()
+                self.result()
+                pygame.display.update()
+                #self.voice()
+                self.flag = [False] * 7
         elif self.game_state == GAME_MODE['DISTR'] :
+            self.cards_road() # cards images road here
             an.animation(self.screen, GREEN, self.clock, self.cardback)
             pygame.time.wait(1000)
             self.game_state = GAME_MODE['PLAY']
@@ -75,6 +75,7 @@ class Porker(object) :
         elif self.game_state == GAME_MODE['START'] :
             self.start()
         elif self.game_state == GAME_MODE['RESULT'] :
+            self.game_skip()
             time.sleep(3)
             self.game_state = GAME_MODE['START']
         
@@ -94,6 +95,16 @@ class Porker(object) :
         if 0 <= self.i <= 4 :
             self.screen.blit(player_cards[self.i], (265 + self.i * 60, 390))
 
+        if self.i == 5 :
+            self.screen.blit(self.button_call, (605, 480))
+        else :
+            self.screen.blit(self.button_call_on, (605, 480))
+        
+        if self.i == 6 :
+            self.screen.blit(self.button_fold, (725 , 480))
+        else :
+            self.screen.blit(self.button_fold_on, (725 , 480))
+
         if self.control :
             self.key_choice()
         else :
@@ -103,9 +114,23 @@ class Porker(object) :
 
         self.print_deck()
         self.print_cpudist()
-        
+
         self.screen.blit(self.font.render(player.role_comment(), True, (255, 0, 0)), (260, 330))
     
+    def result(self) :
+
+        if player.player_role() > cpu.cpu_role() :
+            self.game_result == RESULT['WIN']
+        else :
+            self.game_result == RESULT['LOSE']
+        print(cpu.role_comment())
+        j = 0
+        while (j < 5) :
+            self.screen.blit(cpu_cards[j], (265 + j * 60, 90))
+            j += 1
+        
+        self.game_state = GAME_MODE['RESULT']
+
     def key_handler(self) :
         if self.event != [] :
             for eve in self.event :
@@ -114,17 +139,17 @@ class Porker(object) :
                 if eve.type == KEYDOWN :
                     if eve.key == K_ESCAPE :
                         sys.exit()
+
     def start(self) :
         if self.event == [] :
             pygame.event.pump()
-            self.screen.blit(self.title.render('AIPoker', True, (0, 0, 0)), (300, 210))
-            self.screen.blit(self.comment.render("Prease click space or press enter.", True, (0, 0, 0)), (300, 340))
+            self.screen.blit(self.title.render('AIPoker', True, (0, 0, 0)), (280, 210))
+            self.screen.blit(self.comment.render("Prease click space or press enter.", True, (0, 0, 0)), (260, 340))
         else :
-            self.screen.blit(self.title.render('AIPoker', True, (0, 0, 0)), (300, 210))
-            self.screen.blit(self.comment.render("Prease click space or press enter.", True, (0, 0, 0)), (300, 340))
+            self.screen.blit(self.title.render('AIPoker', True, (0, 0, 0)), (280, 210))
+            self.screen.blit(self.comment.render("Prease click space or press enter.", True, (0, 0, 0)), (260, 340))
             for eve in self.event :
                 if eve.type == MOUSEBUTTONDOWN and eve.button == 1 :
-                    self.voice_lose.play()
                     self.game_state = GAME_MODE['DISTR']
                 if eve.type == KEYDOWN :
                     if eve.key == K_RETURN :
@@ -155,11 +180,11 @@ class Porker(object) :
                 self.i = 0
             else :
                 self.i = -1
-        elif (460 <= self.y <= 540) :
-            if 595 < self.x <= 695:
-                self.i = 5
-            elif 715 < self.x <= 785 :
-                self.i = 6
+            if (480 <= self.y <= 520) :
+                if 605 < self.x <= 705:
+                    self.i = 5
+                elif 725 < self.x <= 825 :
+                    self.i = 6
         else :
             self.i = -1
 
@@ -178,6 +203,9 @@ class Porker(object) :
                         self.i -= 1
 
     def cards_road(self) :
+        db.distribute()
+        global player_cards, cpu_cards, remainder_cards
+        player_cards, cpu_cards, remainder_cards = [], [], []
         for no in db.player_num :
             player_cards.append(pygame.image.load("%s%d.png" % (root, no)).convert_alpha())
         for no in db.cpu_num :
@@ -191,17 +219,34 @@ class Porker(object) :
             player_cards[i] = (pygame.image.load("%s%d.png" % (root, no)).convert_alpha())
             i += 1
 
+    def image_road(self) :
+        self.font = pygame.font.Font("../images/Pacifico.ttf", 40)
+        self.title = pygame.font.Font("../images/Pacifico.ttf", 90)        
+        self.comment = pygame.font.Font("../images/Pacifico.ttf", 30)
+        self.cardback = pygame.image.load("%scardback.png" % root).convert_alpha()
+        self.button_call = pygame.image.load("%shit_button_blue.png" % b_root).convert_alpha()
+        self.button_call_on = pygame.image.load("%shit_button_blue_fade.png" % b_root).convert_alpha()
+        self.button_fold = pygame.image.load("%sstand_button_blue.png" % b_root).convert_alpha()
+        self.button_fold_on = pygame.image.load("%sstand_button_blue_fade.png" % b_root).convert_alpha()
+        
     def voice(self) :
         pygame.mixer.init(44100, 16, 2, 4096)
         if self.game_result == RESULT['WIN'] :
-            pygame.mixer.music.load("%syouwin.mp3" % v_root)
+            pygame.mixer.music.load('%syouwin.mp3' % v_root)
         elif self.game_result == RESULT['LOSE'] :
-            pygame.mixer.music.load("%syoulose.mp3" % v_root)
+            pygame.mixer.music.load('%syoulose.mp3' % v_root)
         pygame.mixer.music.play(1)
         self.flag[6] = False
         self.game_state = GAME_MODE['RESULT']
         time.sleep(4)
         
+    def game_skip(self) :
+        for eve in self.event :
+            if (eve.type == MOUSEBUTTONDOWN and eve.button == 1) or (eve.type == KEYDOWN and eve.key == K_RETURN) :
+                if self.game_state == GAME_MODE['DISTR'] :
+                    self.game_state = GAME_MODE['PLAY']
+                elif self.game_state == GAME_MODE['RESULT'] :
+                    self.game_state = GAME_MODE['START']
 
     def print_deck(self) :
         self.screen.blit(self.cardback, (700, 100))

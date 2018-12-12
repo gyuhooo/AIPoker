@@ -2,16 +2,16 @@ import search as hands
 import re
 import distribute as db
 
-def check() :
+def check(dist, dist_num) :
 
     i = 0
     j = 1
     check = 0
     card_check = []
     straight_flash_check = []
-    num_list = [int(s) for s in db.player_num]
+    num_list = [int(s) for s in dist_num]                   
     num_list.sort()
-    hand = hands.search()
+    hand = hands.search(dist)
     
     for num in hand :
         card_check.append(num)
