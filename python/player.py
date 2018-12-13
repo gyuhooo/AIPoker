@@ -14,15 +14,22 @@ def role_comment():
     elif no == 3 :
         role = 'three card!'
     elif no == 4 :
+        no = 8        
         role = 'full house!!'
+    elif role == 5 :
+        role = 'Straight!!'
     elif no == 6 :
+        no = 9
         role = 'four card!!'
     elif no == 10 :
-        role = 'five card!!'
+        no = 12
+        role = 'five card!!!'
+    elif no == 7 :
+        role = 'Flush!!'
     elif no == 11 :
-        role = 'Straight Flush with JORKER!!!'
-    elif no == 12 :
         role = 'Straight Flush!!!'
+    elif no == 13 :
+        role = 'Royel Straight Flash!!!!'
 
     comment = 'You have ' + role
     
