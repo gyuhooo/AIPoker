@@ -56,13 +56,23 @@ def check(dist, dist_num) :
             flash_check += 1
     
     j = 1
-    card_check_num = [int(s) for s in hand]
+    hand_s = str(hand)
+    pattern = '.*?(\d+)'
+    repatter = re.sub(", 'JORKER'", '', hand_s)
+    result = re.findall(pattern, repatter)
+    card_check_num = [int(s) for s in result]
     card_check_num.sort()
     straight_check = 0
-    while (j < 5) :
-        if card_check_num[4] == card_check_num[4 - j] + j :
-            straight_check += 1
-        j += 1
+    if jor_check :
+        while (j < 4) :            
+            if card_check_num[3] == card_check_num[3 - j] + j :
+                straight_check += 1
+            j += 1
+    else :
+        while (j < 5) :
+            if card_check_num[4] == card_check_num[4 - j] + j :
+                straight_check += 1
+            j += 1
     
     
     if (flash_check == 5) or ((flash_check == 4) and jor_check) :

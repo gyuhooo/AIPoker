@@ -66,9 +66,9 @@ class Porker(object) :
                     self.redist = True
                 self.flag = [False] * 7
             if self.flag[6] == True :
+                self.screen.fill(GREEN)  
+                self.print_dist()              
                 self.result()
-                self.screen.fill(GREEN)
-                self.print_dist()
                 self.print_deck()
                 pygame.display.update()
                 self.voice()
@@ -135,10 +135,15 @@ class Porker(object) :
         else :
             self.game_result = RESULT['DROW']
             print("Tie game")
-        print(cpu.role_comment())
+        self.screen.blit(self.font.render(player.role_comment(), True, (255, 0, 0)), (260, 330))
+        self.screen.blit(self.font.render(cpu.role_comment(), True, (255, 0, 0)), (260, 230))
         j = 0
         while (j < 5) :
             self.screen.blit(cpu_cards[j], (265 + j * 60, 90))
+            j += 1
+        j = 0
+        while (j < 5) :
+            self.screen.blit(player_cards[j], (265 + j * 60, 430))
             j += 1
         
         self.game_state = GAME_MODE['RESULT']
