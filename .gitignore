@@ -10,4 +10,4 @@ game.pyc
 animation.py~
 animation.pyc
 cpu.pyc
-./__pycache__/
+./python/__pycache__/
