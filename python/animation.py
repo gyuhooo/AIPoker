@@ -9,7 +9,7 @@ def animation(screen, color, clock, cardback) :
     i = 0
 
     while(cards < 10) :
-        clock.tick(1)
+        clock.tick(5)
         if cards < 5 :                
             x = (700 - (265 + cards * 60)) / 200.0
             x1 = x

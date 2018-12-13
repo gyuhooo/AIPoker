@@ -69,13 +69,15 @@ class Porker(object) :
                 self.result()
                 self.screen.fill(GREEN)
                 self.print_dist()
+                self.print_deck()
                 pygame.display.update()
                 self.voice()
                 self.flag = [False] * 7
         elif self.game_state == GAME_MODE['DISTR'] :
             self.cards_road() # cards images road here
             an.animation(self.screen, GREEN, self.clock, self.cardback)
-            pygame.time.wait(1000)
+            pygame.time.wait(100)
+            self.redist = False
             self.game_state = GAME_MODE['PLAY']
             self.clock.tick(100)
         elif self.game_state == GAME_MODE['START'] :
