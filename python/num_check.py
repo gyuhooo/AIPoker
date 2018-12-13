@@ -54,28 +54,24 @@ def check(dist, dist_num) :
 
         if tmp == kind:
             flash_check += 1
-    """
+    
     j = 1
-    pattern = '.*?(\d+)'
-    card_str = str(card_check)
-    repatter = re.sub("\W'|',|'|]", '', card_str)
-    #l_si_i = [int(s) for s in repatter]
-    car_ch = re.findall(pattern, repatter)
-    card_check_num = [int(s) for s in car_ch]
+    card_check_num = [int(s) for s in hand]
     card_check_num.sort()
     straight_check = 0
     while (j < 5) :
         if card_check_num[4] == card_check_num[4 - j] + j :
             straight_check += 1
         j += 1
-    """
+    
+    
     if (flash_check == 5) or ((flash_check == 4) and jor_check) :
         if check <= 3 :
             check = 7
-        """if (straight_check == 4) ((straight_check == 3) and jor_check) :
+        if (straight_check == 4) or ((straight_check == 3) and jor_check) :
             if check <= 10 :
                 check = 11
-    elif (straight_check == 4) ((straight_check == 3) and jor_check) :
+    elif (straight_check == 4) or ((straight_check == 3) and jor_check) :
         if check <= 3 :
             check = 5
     
@@ -84,5 +80,5 @@ def check(dist, dist_num) :
 
     if straightflash_check == [48, 49, 50, 51, 52] :
         check = 13
-    """
+    
     return check 

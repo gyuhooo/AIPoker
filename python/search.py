@@ -15,5 +15,4 @@ def search(dist) :
         hand = result
     else :
         hand = result + [str(jorker.group())]
-
     return hand
