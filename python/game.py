@@ -62,16 +62,16 @@ class Porker(object) :
             if self.flag[5] == True :
                 if not self.redist :
                     ex.redistr()
-                    time.sleep(1)
                     self.cards_reroad() #if player push the button 'call', cards reroad
                     self.redist = True
                 self.flag = [False] * 7
             if self.flag[6] == True :
-                self.screen.fill(GREEN)  
+                self.screen.fill(GREEN)
                 self.print_dist()              
                 self.result()
                 self.print_deck()
                 pygame.display.update()
+                time.sleep(0.5)
                 self.voice()
                 self.flag = [False] * 7
         elif self.game_state == GAME_MODE['DISTR'] :
