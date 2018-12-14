@@ -8,7 +8,7 @@ def check(dist, dist_num) :
     j = 1
     flash_check, check = 0, 0
     card_check = []
-    num_list = [int(s) for s in dist_num]                   
+    num_list = [int(s) for s in dist_num]
     num_list.sort()
     hand = hands.search(dist)
     
@@ -35,6 +35,8 @@ def check(dist, dist_num) :
         check += 3
     elif (check == 6) and jor_check :
         check += 4
+
+    tmp = 0 
 
     for suit in dist_num:    
 

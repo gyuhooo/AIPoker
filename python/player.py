@@ -16,7 +16,7 @@ def role_comment():
     elif no == 4 :
         no = 8        
         role = 'full house!!'
-    elif role == 5 :
+    elif no == 5 :
         role = 'Straight!!'
     elif no == 6 :
         no = 9
