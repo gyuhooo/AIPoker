@@ -1,6 +1,7 @@
 import search as hands
 import re
 import distribute as db
+import copy
 
 def check(dist, dist_num) :
 
@@ -8,10 +9,11 @@ def check(dist, dist_num) :
     j = 1
     flash_check, check = 0, 0
     card_check = []
-    num_list = [int(s) for s in dist_num]                   
+    dist_num_copy = copy.deepcopy(dist_num)
+    num_list = [int(s) for s in dist_num_copy]
     num_list.sort()
-    hand = hands.search(dist)
-    
+    dist_copy = copy.deepcopy(dist)
+    hand = hands.search(dist_copy)
     for num in hand :
         card_check.append(num)
         while (j <= i) :
@@ -36,6 +38,8 @@ def check(dist, dist_num) :
     elif (check == 6) and jor_check :
         check += 4
 
+    tmp = 0 
+
     for suit in dist_num:    
 
         if 1 <= suit <= 13:
@@ -56,7 +60,8 @@ def check(dist, dist_num) :
             flash_check += 1
     
     j = 1
-    hand_s = str(hand)
+    hand_copy = copy.deepcopy(hand)
+    hand_s = str(hand_copy)
     pattern = '.*?(\d+)'
     repatter = re.sub(", 'JORKER'", '', hand_s)
     result = re.findall(pattern, repatter)
@@ -85,10 +90,10 @@ def check(dist, dist_num) :
         if check <= 3 :
             check = 5
     
-    straightflash_check = dist_num
+    straightflash_check = dist_num_copy
     straightflash_check.sort()
 
     if straightflash_check == [48, 49, 50, 51, 52] :
         check = 13
-    
+        
     return check 

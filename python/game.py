@@ -33,7 +33,7 @@ class Porker(object) :
         self.game_result = RESULT['NONE']
         self.flag = [False] * 7
         self.button, self.control, self.redist = False, False, False
-        self.i = -1        
+        self.i = 7     
         pygame.mixer.music.play(-1)
         
         while(1) :
@@ -66,17 +66,18 @@ class Porker(object) :
                     self.redist = True
                 self.flag = [False] * 7
             if self.flag[6] == True :
-                self.screen.fill(GREEN)  
+                self.screen.fill(GREEN)
                 self.print_dist()              
                 self.result()
                 self.print_deck()
                 pygame.display.update()
+                time.sleep(0.5)
                 self.voice()
                 self.flag = [False] * 7
         elif self.game_state == GAME_MODE['DISTR'] :
             self.cards_road() # cards images road here
             an.animation(self.screen, GREEN, self.clock, self.cardback)
-            pygame.time.wait(100)
+            pygame.time.wait(1000)
             self.redist = False
             self.game_state = GAME_MODE['PLAY']
             self.clock.tick(100)
@@ -118,7 +119,9 @@ class Porker(object) :
         else :
             self.mouse_choice()
 
-        self.click(self.i)
+        for eve in self.event :
+            if (eve.type == MOUSEBUTTONDOWN and eve.button == 1) or (eve.type == KEYDOWN and eve.key == K_RETURN) :
+                self.click(self.i)
 
         self.print_deck()
         self.print_dist()
@@ -174,48 +177,46 @@ class Porker(object) :
                         self.game_state = GAME_MODE['DISTR']
 
     def click(self, no) :
-        for eve in self.event :
-            if (eve.type == MOUSEBUTTONDOWN and eve.button == 1) or (eve.type == KEYDOWN and eve.key == K_RETURN) :
-                if self.i != -1 :
-                    if self.flag[no] :
-                        self.flag[no] = False
-                    else :
-                        self.flag[no] =True
-                    if 0 <= no <= 4 :
-                        ex.click(no)
+        if 0 <= self.i <= 6 :
+            if self.flag[no] :
+                self.flag[no] = False
+            else :
+                self.flag[no] =True
+            if 0 <= no <= 4 :
+                ex.click(no)
         
     def mouse_choice(self) :
-        if 390 <= self.y <= 540 :
-            if 505 < self.x <= 575 :                            
+        if (390 <= self.y) and (self.y <= 540) :
+            if (505 < self.x) and (self.x <= 575) :                            
                 self.i = 4
-            elif 445 < self.x <= 505 :
+            elif (445 < self.x) and (self.x <= 505) :
                 self.i = 3
-            elif 385 < self.x <= 445 :
+            elif (385 < self.x) and (self.x <= 445) :
                 self.i = 2
-            elif 325 < self.x <= 385 :
+            elif (325 < self.x) and (self.x <= 385) :
                 self.i = 1
-            elif 265 < self.x <= 325 :
+            elif (265 < self.x) and (self.x <= 325) :
                 self.i = 0
             else :
                 self.i = -1
-            if (480 <= self.y <= 520) :
-                if 605 < self.x <= 705:
+            if (480 <= self.y) and (self.y <= 520) :
+                if (605 <= self.x) and (self.x <= 705) :
                     self.i = 5
-                elif 725 < self.x <= 825 :
+                elif (725 <= self.x) and (self.x <= 825) :
                     self.i = 6
         else :
-            self.i = -1
+            self.i = 7
 
     def key_choice(self) :
         for eve in self.event :
             if eve.type == KEYDOWN :
                 if eve.key == K_RIGHT :
-                    if self.i == -1 :
+                    if self.i == 7 :
                         self.i = 0
                     elif self.i != 6 :
                         self.i += 1
-                if eve.key == K_LEFT :                    
-                    if self.i == -1 :
+                elif eve.key == K_LEFT :                    
+                    if self.i == 7 :
                         self.i = 4
                     elif self.i != 0 :
                         self.i -= 1
@@ -232,10 +233,12 @@ class Porker(object) :
             remainder_cards.append(pygame.image.load("%s%d.png" % (root, no)).convert_alpha())
 
     def cards_reroad(self) :
-        i = 0
+        global player_cards
+        player_cards = []
         for no in db.player_num :
-            player_cards[i] = (pygame.image.load("%s%d.png" % (root, no)).convert_alpha())
-            i += 1
+            player_cards.append(pygame.image.load("%s%d.png" % (root, no)).convert_alpha())
+        print("player : %s" % db.player)
+        print("player_num : %s" %db.player_num)
 
     def image_road(self) :
         self.font = pygame.font.Font("../images/Pacifico.ttf", 40)
@@ -249,7 +252,7 @@ class Porker(object) :
         self.voice_lose = pygame.mixer.Sound("%syoulose.ogg" % v_root)
         self.voice_win = pygame.mixer.Sound("%syouwin.ogg" % v_root)
         self.voice_drow = pygame.mixer.Sound("%stiegame.ogg" % v_root)        
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(0.7)
         pygame.mixer.music.load("%sPorker_Game.mp3" % v_root)
 
     def voice(self) :
@@ -268,8 +271,6 @@ class Porker(object) :
         pygame.mixer.music.unpause()
         for eve in self.event :
             if (eve.type == MOUSEBUTTONDOWN and eve.button == 1) or (eve.type == KEYDOWN and eve.key == K_RETURN) :
-                #if self.game_state == GAME_MODE['DISTR'] :
-                    #self.game_state = GAME_MODE['PLAY']
                 if self.game_state == GAME_MODE['RESULT'] :
                     self.game_state = GAME_MODE['START']
 

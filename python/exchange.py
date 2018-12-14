@@ -1,10 +1,10 @@
 import distribute as db
 import random
 
-
 flag = [False, False, False, False, False]
 
 def click(no) :
+    global flag
     if flag[no] :
         flag[no] = False
     else :
@@ -12,6 +12,7 @@ def click(no) :
 
 def redistr() :
     i = 0
+    global flag
     for fl in flag :
         while(fl == True) :
             rand = random.randint(0, 9)
@@ -19,6 +20,7 @@ def redistr() :
                 db.player[i] = db.remainder[rand]
                 db.player_num[i] = db.remainder_num[rand]
                 db.remainder[rand] = 0
+                db.remainder_num[rand] = 0
                 fl, flag[i] = False, False
             elif db.remainder == [0, 0, 0, 0, 0, 0, 0, 0, 0, 0] :
                 fl, flag[i] = False, False
@@ -27,3 +29,4 @@ def redistr() :
                 continue
         
         i += 1
+    print(db.player_num)
