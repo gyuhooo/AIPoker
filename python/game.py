@@ -252,7 +252,7 @@ class Porker(object) :
         self.voice_lose = pygame.mixer.Sound("%syoulose.ogg" % v_root)
         self.voice_win = pygame.mixer.Sound("%syouwin.ogg" % v_root)
         self.voice_drow = pygame.mixer.Sound("%stiegame.ogg" % v_root)        
-        pygame.mixer.music.set_volume(0.3)
+        pygame.mixer.music.set_volume(0.7)
         pygame.mixer.music.load("%sPorker_Game.mp3" % v_root)
 
     def voice(self) :

@@ -2,7 +2,7 @@ import random
 import trump
 
 kind = ['JORKER']
-#player, cpu, num, player_num, cpu_num, remainder, remainder_num = [], [], [], [], [], [], []
+player, cpu, num, player_num, cpu_num, remainder, remainder_num = [], [], [], [], [], [], []
 
 for card in trump.cards :
     j = 0 
@@ -12,7 +12,7 @@ for card in trump.cards :
 
 def distribute() :
 
-    global player, cpu, num, player_num, cpu_num, remainder, remainder_num
+    global player, cpu, num, player_num, cpu_num, remainder, remainder_num, kind
     player, cpu, num, player_num, cpu_num, remainder, remainder_num = [], [], [], [], [], [], []
 
 
