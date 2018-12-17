@@ -65,19 +65,47 @@ def check(dist, dist_num) :
     pattern = '.*?(\d+)'
     repatter = re.sub(", 'JORKER'", '', hand_s)
     result = re.findall(pattern, repatter)
+    ace_check = re.search('1', repatter)
+    king_check = re.search('13', repatter)
     card_check_num = [int(s) for s in result]
     card_check_num.sort()
     straight_check = 0
-    if jor_check :
-        while (j < 4) :            
-            if card_check_num[3] == card_check_num[3 - j] + j :
-                straight_check += 1
-            j += 1
+    if ace_check :
+        if jor_check :
+            if king_check :
+                while (j < 3) :
+                    if card_check_num[j + 1] == j + 11 :
+                        straight_check += 1
+                    elif card_check_num[j + 1] == j + 10 :
+                        straight_check += 1
+                    j += 1
+            else :
+                while (j < 4) :
+                    if card_check_num[j] == j + 1 :
+                        straight_check += 1
+                    j += 1
+        else :
+            if king_check :
+                while (j < 4) :
+                    if card_check_num[j + 1] == j + 10 :
+                        straight_check += 1
+                    j += 1
+            else :
+                while (j < 5) :
+                    if card_check_num[j] == j + 1 :
+                        straight_check += 1
+                    j += 1
     else :
-        while (j < 5) :
-            if card_check_num[4] == card_check_num[4 - j] + j :
-                straight_check += 1
-            j += 1
+        if jor_check :
+            while (j < 4) :
+                if card_check_num[3] == card_check_num[3 - j] + j :
+                    straight_check += 1
+                j += 1
+        else :
+            while (j < 5) :
+                if card_check_num[4] == card_check_num[4 - j] + j :
+                    straight_check += 1
+                j += 1
     
     
     if (flash_check == 5) or ((flash_check == 4) and jor_check) :
