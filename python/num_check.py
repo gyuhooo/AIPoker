@@ -42,17 +42,17 @@ def check(dist, dist_num) :
 
     for suit in dist_num:    
 
-        if 1 <= suit <= 13:
+        if 1 <= suit <= 13 :
             tmp = 1
-        elif 14 <= suit<=26:
+        elif 14 <= suit <= 26 :
             tmp = 2
-        elif 27 <= suit <=39:
+        elif 27 <= suit <= 39 :
             tmp = 3
-        elif 40 <= suit <=52:
+        elif 40 <= suit <= 52 :
             tmp = 4 
 
         if flash_check == 0:
-            kind = tmp
+            kind =copy.copy(tmp)
             flash_check = 1
             continue 
 
@@ -108,7 +108,7 @@ def check(dist, dist_num) :
                 j += 1
     
     
-    if (flash_check == 5) or ((flash_check == 4) and jor_check) :
+    if (flash_check == 6) or ((flash_check == 5) and jor_check) :
         if check <= 3 :
             check = 7
         if (straight_check == 4) or ((straight_check == 3) and jor_check) :
@@ -121,7 +121,7 @@ def check(dist, dist_num) :
     straightflash_check = dist_num_copy
     straightflash_check.sort()
 
-    if straightflash_check == [48, 49, 50, 51, 52] :
+    if straightflash_check == [40, 49, 50, 51, 52] :
         check = 13
         
     return check 
