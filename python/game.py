@@ -52,7 +52,7 @@ class Porker(object) :
         if self.game_state == GAME_MODE['PLAY'] :
             for eve in self.event :
                 if eve.type == KEYDOWN :
-                    if eve.key == K_RIGHT or K_LEFT :
+                    if eve.key == K_RIGHT or eve.key == K_LEFT :
                         pygame.mouse.set_visible(False)
                         self.control = True
                 if eve.type == MOUSEMOTION :
